@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!--
+    This is the initial draft using a new formatting technique and style.
+    Some inspiration taken from various sources.
+-->
+<html lang="en-us">
+    <head>
+        <title>Narangba Internal Data Centre</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="Assets/css/Style.css">
+    </head>
+    <body class="body">
+        <div class="header">
+            <div class="logo">
+                <img src="Assets/images/Pure-_-Dark-Blue.png" alt="Pure Environmental Pty Ltd"/>
+			</div>
+            <h1 class="title">Contact Us!</h1>
+			<!-- Nav -->
+			<nav class="nav">
+				<ul class="navlist">
+                    <li class="dropdown">
+                        <a href="#">☰</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="Index.html">Home</a></li>
+                            <li><a href="Lab-Data.html">Laboratory Testing Data</a></li>
+                            <li><a href="Upload-Lab.html">Upload Lab Data</a></li>
+                            <li><a href="Information.html">Information</a></li>
+                            <li><a href="Contact.html">Contact Us</a></li>
+                        </ul>
+                    </li>
+				</ul>
+			</nav>
+        </div>
+        <div class="main">
+            <div class="decal">
+                <img src="Assets/images/Horizontal_Decal.png" alt="PureNV-Decal"/>
+            </div>
+            <h2 class=contact-big>Looking to reach out?</h2>
+            <h4 class="contact-small">Currently, minimal development changes are being made, as the base system is being standardized to Pure Environmental QLD. However, if you wanted to leave a comment here, it will be reviewed as soon as possible.</h4>
+            <form id="feedbackForm" class="feedback-form" method="POST">
+                    <label for="name" class="name-label">Name:</label>
+                    <input type="text" id="name" name="name" class="name-box" required>
+                    <label for="feedback" class="feedback-label">Your Feedback:</label>
+                    <textarea id="feedback" name="feedback" class="feedback-box" required></textarea>
+                <button id="submit "type="submit" class="submit-button">Submit</button>
+            </form>
+            <div id="responseMessage" class="feedback-resp"></div>
+        </div>
+        <footer class="footer">
+            <p class="footertext">Got a recommendation or a problem that needs solving? Contact us <a class="cont-lk" onclick="href='Contact.html'">here!</a></p>
+        </footer>
+    </body>
+</html>

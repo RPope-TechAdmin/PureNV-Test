@@ -1,0 +1,52 @@
+{
+  "trailingSlash": "auto",
+  "routes": [
+    {"route":"/",
+      "allowedRoles": ["authenticated"]
+    },
+    {
+      "route": "index.html*",
+      "allowedRoles": ["authenticated"]
+    },
+    {
+      "route": "Information.html*",
+      "allowedRoles": ["authenticated"]
+    },
+    {
+      "route": "Lab-Data.html*",
+      "allowedRoles": ["authenticated"]
+    },
+    {
+      "route": "Contact.html*",
+      "allowedRoles": ["authenticated"]
+    }
+  ],
+  "navigationFallback": {
+    "rewrite": "/Index.html",
+    "exclude": ["Assets/*.{png,jpg,gif}", "/css/*"]
+  },
+  "responseOverrides": {
+    "400": {
+      "rewrite": "Not-Invited.html"
+    },
+    "401": {
+      "statusCode": 302,
+        "redirect": "/.auth/login/aad"
+    },
+    "403": {
+      "rewrite": "Not-For-You.html"
+    },
+    "404": {
+      "rewrite": "Not-Found.html"
+    }
+  },
+  "globalHeaders": {
+    "content-security-policy": "default-src https: 'unsafe-eval' 'unsafe-inline'; object-src 'none'"
+  },
+  "mimeTypes": {
+    ".json": "text/json"
+  },
+  "platform": {
+    "apiRuntime": "python:3.8"
+  }
+}
