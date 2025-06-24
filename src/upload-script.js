@@ -1,23 +1,12 @@
-// Get DOM elements
+// DOM Elements
 const dropZone = document.getElementById('drop-zone');
 const fileInput = document.getElementById('file-input');
 const output = document.getElementById('output');
 
-// Log file selection via input
-fileInput.addEventListener('change', (e) => {
-  const files = e.target.files;
-  if (files && files.length > 0) {
-    const file = files[0];
-    console.log("File selected via Browse:", file.name);
-    uploadFile(file);
-  } else {
-    console.warn("No file selected.");
-  }
-});
-
-// Handle drag-and-drop events
+// Allow clicking the drop zone to open file picker
 dropZone.addEventListener('click', () => fileInput.click());
 
+// Handle drag-over visuals
 dropZone.addEventListener('dragover', (e) => {
   e.preventDefault();
   dropZone.classList.add('dragover');
@@ -27,6 +16,7 @@ dropZone.addEventListener('dragleave', () => {
   dropZone.classList.remove('dragover');
 });
 
+// Handle file drop
 dropZone.addEventListener('drop', (e) => {
   e.preventDefault();
   dropZone.classList.remove('dragover');
@@ -38,7 +28,18 @@ dropZone.addEventListener('drop', (e) => {
   }
 });
 
-// Core upload function
+// Handle file selection via Browse button
+fileInput.addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    console.log("File selected via Browse:", file.name);
+    uploadFile(file);
+  } else {
+    console.warn("No file selected.");
+  }
+});
+
+// Upload the file to the backend
 async function uploadFile(file) {
   if (!file) {
     output.textContent = "No file provided.";
@@ -57,13 +58,21 @@ async function uploadFile(file) {
       body: formData
     });
 
+    const contentType = response.headers.get("Content-Type") || "";
     const text = await response.text();
 
     console.log("Status:", response.status);
-    console.log("Content-Type:", response.headers.get("Content-Type"));
+    console.log("Content-Type:", contentType);
     console.log("Raw response:", text);
 
-    // Attempt to parse JSON
+    if (!response.ok) {
+      throw new Error("Server error: " + response.status);
+    }
+
+    if (!contentType.includes("application/json")) {
+      throw new Error("Expected JSON but got: " + contentType + "\n" + text);
+    }
+
     let data;
     try {
       data = JSON.parse(text);
@@ -71,11 +80,9 @@ async function uploadFile(file) {
       throw new Error("Invalid JSON Response: " + text);
     }
 
-    // Display result
     output.textContent = JSON.stringify(data, null, 2);
-
   } catch (err) {
     output.textContent = "Error: " + err.message;
-    console.error("Upload error:", err);
+    console.error("Upload failed:", err);
   }
 }
