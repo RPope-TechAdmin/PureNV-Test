@@ -6,11 +6,11 @@
     },
     {
       "route": "index.html*",
-      "allowedRoles": ["authenticated"]
+      "allowedRoles": ["authenticated","operator"]
     },
     {
       "route": "Information.html*",
-      "allowedRoles": ["authenticated"]
+      "allowedRoles": ["authenticated","operator"]
     },
     {
       "route": "Lab-Data.html*",
@@ -18,6 +18,10 @@
     },
     {
       "route": "Contact.html*",
+      "allowedRoles": ["authenticated","operator"]
+    },
+    {
+      "route": "Upload-Lab.html*",
       "allowedRoles": ["authenticated"]
     }
   ],
