@@ -1,26 +1,21 @@
+// Get DOM elements
 const dropZone = document.getElementById('drop-zone');
 const fileInput = document.getElementById('file-input');
 const output = document.getElementById('output');
 
-console.log("Status:", response.status);
-console.log("Content-Type:", response.headers.get("Content-Type"));
-console.log("Raw response:", text);
-
-async function uploadFile(file) {
-  if (!file) {
-    output.textContent = "No file provided to uploadFile().";
-    return;
+// Log file selection via input
+fileInput.addEventListener('change', (e) => {
+  const files = e.target.files;
+  if (files && files.length > 0) {
+    const file = files[0];
+    console.log("File selected via Browse:", file.name);
+    uploadFile(file);
+  } else {
+    console.warn("No file selected.");
   }
+});
 
-  console.log("Uploading:", file.name);
-  const formData = new FormData();
-  formData.append("file", file);
-
-  output.textContent = "Uploading...";
-  // ... rest of the function
-}
-
-
+// Handle drag-and-drop events
 dropZone.addEventListener('click', () => fileInput.click());
 
 dropZone.addEventListener('dragover', (e) => {
@@ -38,23 +33,19 @@ dropZone.addEventListener('drop', (e) => {
 
   const file = e.dataTransfer.files[0];
   if (file) {
+    console.log("File dropped:", file.name);
     uploadFile(file);
   }
 });
 
-fileInput.addEventListener('change', (e) => {
-  const files = e.target.files;
-  if (files && files.length > 0) {
-    const file = files[0];
-    console.log("File selected via Browse:", file.name);
-    uploadFile(file);
-  } else {
-    console.warn("No file selected.");
-  }
-});
-
-
+// Core upload function
 async function uploadFile(file) {
+  if (!file) {
+    output.textContent = "No file provided.";
+    return;
+  }
+
+  console.log("Uploading:", file.name);
   const formData = new FormData();
   formData.append("file", file);
 
@@ -66,18 +57,25 @@ async function uploadFile(file) {
       body: formData
     });
 
-    const text = await response.text(); //reading first as text
-    console.log("Raw response from server:", text);
+    const text = await response.text();
 
+    console.log("Status:", response.status);
+    console.log("Content-Type:", response.headers.get("Content-Type"));
+    console.log("Raw response:", text);
+
+    // Attempt to parse JSON
     let data;
     try {
-      data=JSON.parse(text);
+      data = JSON.parse(text);
     } catch (e) {
       throw new Error("Invalid JSON Response: " + text);
     }
-    
+
+    // Display result
     output.textContent = JSON.stringify(data, null, 2);
+
   } catch (err) {
     output.textContent = "Error: " + err.message;
+    console.error("Upload error:", err);
   }
 }
