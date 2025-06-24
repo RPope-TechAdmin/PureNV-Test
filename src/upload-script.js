@@ -6,6 +6,20 @@ console.log("Status:", response.status);
 console.log("Content-Type:", response.headers.get("Content-Type"));
 console.log("Raw response:", text);
 
+async function uploadFile(file) {
+  if (!file) {
+    output.textContent = "No file provided to uploadFile().";
+    return;
+  }
+
+  console.log("Uploading:", file.name);
+  const formData = new FormData();
+  formData.append("file", file);
+
+  output.textContent = "Uploading...";
+  // ... rest of the function
+}
+
 
 dropZone.addEventListener('click', () => fileInput.click());
 
@@ -28,12 +42,17 @@ dropZone.addEventListener('drop', (e) => {
   }
 });
 
-fileInput.addEventListener('change', () => {
-  const file = fileInput.files[0];
-  if (file) {
+fileInput.addEventListener('change', (e) => {
+  const files = e.target.files;
+  if (files && files.length > 0) {
+    const file = files[0];
+    console.log("File selected via Browse:", file.name);
     uploadFile(file);
+  } else {
+    console.warn("No file selected.");
   }
 });
+
 
 async function uploadFile(file) {
   const formData = new FormData();
