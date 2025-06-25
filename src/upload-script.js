@@ -55,7 +55,8 @@ async function uploadFile(file) {
     });
 
     const text = await response.text();
-    console.log("Raw response:", text);
+    console.log("RAW response:", text);
+    console.log("Status:", response.status);
 
     let data;
     try {
