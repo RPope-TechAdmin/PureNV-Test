@@ -6,7 +6,8 @@
       "allowedRoles": ["anonymous","function"],
       "headers": {
         "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS"
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers":"*"
       }
     },
     {"route":"/",
@@ -35,7 +36,7 @@
   ],
   "navigationFallback": {
     "rewrite": "/Index.html",
-    "exclude": ["Assets/*.{png,jpg,gif}", "/css/*"]
+    "exclude": ["Assets/*.{png,jpg,gif}", "/css/*","/js/*","/api/*"]
   },
   "responseOverrides": {
     "400": {
