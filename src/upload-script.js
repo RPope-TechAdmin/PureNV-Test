@@ -39,54 +39,33 @@ fileInput.addEventListener('change', (e) => {
   }
 });
 
-// Upload the file to the backend
 async function uploadFile(file) {
-  if (!file) {
-    output.textContent = "No file provided.";
-    return;
-  }
-
-  console.log("Uploading:", file.name);
   const formData = new FormData();
-  formData.append("file", file);
-
-  output.textContent = "Uploading...";
+  formData.append("file", file); // must match backend's expected key
 
   try {
-    const response = await fetch('/api/get_lab', {
-      method: 'POST',
+    const response = await fetch("https://purenv-qld-api-backend-e3arg4gsc4g9fbd4.australiaeast-01.azurewebsites.net?code=${secrets.BACKEND_API_KEY_DEFAULT", {
+      method: "POST",
       body: formData,
-      credentials: 'omit',
+      credentials: "omit",   // prevents auth tokens from SWA
       headers: {
-        'Accept': 'application/json'
+        "Accept": "application/json"
+        // DO NOT manually set Content-Type!
       }
     });
 
-    const contentType = response.headers.get("Content-Type") || "";
     const text = await response.text();
-
-    console.log("Status:", response.status);
-    console.log("Content-Type:", contentType);
     console.log("Raw response:", text);
-
-    if (!response.ok) {
-      throw new Error("Server error: " + response.status);
-    }
-
-    if (!contentType.includes("application/json")) {
-      throw new Error("Expected JSON but got: " + contentType + "\n" + text);
-    }
 
     let data;
     try {
       data = JSON.parse(text);
-    } catch (e) {
-      throw new Error("Invalid JSON Response: " + text);
+    } catch {
+      throw new Error("Invalid JSON returned:\n" + text);
     }
 
-    output.textContent = JSON.stringify(data, null, 2);
+    console.log("Success:", data);
   } catch (err) {
-    output.textContent = "Error: " + err.message;
-    console.error("Upload failed:", err);
+    console.error("Upload error:", err.message);
   }
 }
