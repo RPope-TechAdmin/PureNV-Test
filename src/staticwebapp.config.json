@@ -26,7 +26,7 @@
     },
     {
       "route": "/api/*",
-      "rewrite": "https://<your-function-app>.azurewebsites.net/api/:rest*?code=KcS1dXb0QVKW6573DTtY6FI973YI13lYvVsjhwQx19a7AzFuyLByyg==",
+      "rewrite": "https://<your-function-app>.azurewebsites.net/api/:rest*?code=secrets.FUNCTION_API_KEY_DEFAULT",
       "allowedMethods": ["GET", "POST", "OPTIONS"],
       "headers": {
       "Access-Control-Allow-Origin": "*",
