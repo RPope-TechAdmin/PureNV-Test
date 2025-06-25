@@ -14,7 +14,7 @@
     },
     {
       "route": "Lab-Data.html*",
-      "allowedRoles": ["technical","higher-up"]
+      "allowedRoles": ["higher-up"]
     },
     {
       "route": "Contact.html*",
