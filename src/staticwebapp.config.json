@@ -2,7 +2,8 @@
   "trailingSlash": "auto",
   "routes": [
     {"route":"/api/*",
-      "allowedRoles": ["anonymous","function"]  
+      "allowedRoles": ["anonymous","function"],
+      "rewrite": "https://purenv-qld-api-backend-e3arg4gsc4g9fbd4.australiaeast-01.azurewebsites.net/api/*"  
     },
     {"route":"/",
       "allowedRoles": ["authenticated","admin_1"]
