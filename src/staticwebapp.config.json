@@ -6,23 +6,23 @@
     },
     {
       "route": "index.html*",
-      "allowedRoles": ["operator"]
+      "allowedRoles": ["authenticated"]
     },
     {
       "route": "Information.html*",
-      "allowedRoles": ["operator"]
+      "allowedRoles": ["authenticated"]
     },
     {
       "route": "Lab-Data.html*",
-      "allowedRoles": ["authenticated"]
+      "allowedRoles": ["technical","higher-up"]
     },
     {
       "route": "Contact.html*",
-      "allowedRoles": ["operator"]
+      "allowedRoles": ["authenticated"]
     },
     {
       "route": "Upload-Lab.html*",
-      "allowedRoles": ["authenticated"]
+      "allowedRoles": ["technical","higher-up"]
     }
   ],
   "navigationFallback": {
