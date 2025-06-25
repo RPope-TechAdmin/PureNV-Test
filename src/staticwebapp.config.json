@@ -1,6 +1,9 @@
 {
   "trailingSlash": "auto",
   "routes": [
+    {"route":"/api/",
+      "allowedRoles": ["anonymous","function"]  
+    },
     {"route":"/",
       "allowedRoles": ["authenticated","admin_1"]
     },
