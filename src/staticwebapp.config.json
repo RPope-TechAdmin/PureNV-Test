@@ -2,27 +2,27 @@
   "trailingSlash": "auto",
   "routes": [
     {"route":"/",
-      "allowedRoles": ["authenticated"]
+      "allowedRoles": ["authenticated","admin_1"]
     },
     {
       "route": "index.html*",
-      "allowedRoles": ["authenticated"]
+      "allowedRoles": ["authenticated","admin_1"]
     },
     {
       "route": "Information.html*",
-      "allowedRoles": ["authenticated"]
+      "allowedRoles": ["authenticated","admin_1"]
     },
     {
       "route": "Lab-Data.html*",
-      "allowedRoles": ["technical","higher-up"]
+      "allowedRoles": ["technical","higher-up","admin_1"]
     },
     {
       "route": "Contact.html*",
-      "allowedRoles": ["authenticated"]
+      "allowedRoles": ["authenticated","admin_1"]
     },
     {
       "route": "Upload-Lab.html*",
-      "allowedRoles": ["technical","higher-up"]
+      "allowedRoles": ["technical","higher-up","admin_1"]
     }
   ],
   "navigationFallback": {
