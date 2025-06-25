@@ -53,10 +53,13 @@ async function uploadFile(file) {
   output.textContent = "Uploading...";
 
   try {
-    const response = await fetch('https://purenv-qld-api-backend-e3arg4gsc4g9fbd4.australiaeast-01.azurewebsites.net/get_lab?code=${secrets.BACKEND_API_KEY_DEFAULT}', {
+    const response = await fetch('/api/get_lab', {
       method: 'POST',
       body: formData,
-      credentials: 'omit'
+      credentials: 'omit',
+      headers: {
+        'Accept': 'application/json'
+      }
     });
 
     const contentType = response.headers.get("Content-Type") || "";
