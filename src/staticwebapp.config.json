@@ -4,7 +4,7 @@
     {"route":"/api/*",
       "allowedRoles": ["anonymous","function"]  
     },
-    {"route":"/*",
+    {"route":"/",
       "allowedRoles": ["authenticated","admin_1"]
     },
     {
