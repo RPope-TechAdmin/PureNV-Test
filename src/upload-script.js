@@ -55,7 +55,11 @@ async function uploadFile(file) {
   try {
     const response = await fetch('/api/get_lab', {
       method: 'POST',
-      body: formData
+      body: formData,
+      credentials: 'omit',
+      headers: {
+        'Accept': 'application/json'
+      }
     });
 
     const contentType = response.headers.get("Content-Type") || "";
