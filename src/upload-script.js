@@ -44,7 +44,7 @@ async function uploadFile(file) {
   formData.append("file", file); // must match backend's expected key
 
   try {
-    const response = await fetch("https://purenv-qld-api-backend-e3arg4gsc4g9fbd4.australiaeast-01.azurewebsites.net/api/get_lab?code=${secrets.BACKEND_API_KEY_DEFAULT }", {
+    const response = await fetch("https://purenv-qld-api-backend-e3arg4gsc4g9fbd4.australiaeast-01.azurewebsites.net/api/get_lab", {
       method: "POST",
       body: formData,
       credentials: "omit",   // prevents auth tokens from SWA
