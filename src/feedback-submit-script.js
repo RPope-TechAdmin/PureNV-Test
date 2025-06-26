@@ -10,6 +10,17 @@ document.getElementById("feedbackForm").addEventListener("submit", async (e) => 
     if (!name || !feedback) {
       throw new Error("Both name and feedback fields are required.");
     }
+      
+        console.log("Payload:", payload);
+        console.log("Fetch options:", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          credentials: "omit",
+          body: JSON.stringify(payload)
+        });
 
     const payload = { name, feedback };
 
