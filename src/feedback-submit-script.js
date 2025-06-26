@@ -1,18 +1,33 @@
 document.getElementById("feedbackForm").addEventListener("submit", async (e) => {
   e.preventDefault();
-  const formData = new FormData(e.target);
 
-  const payload = {
-    name: formData.get("name"),
-    feedback: formData.get("feedback")
-  };
+  try {
+    const formData = new FormData(e.target);
 
-  const res = await fetch("https://https://calm-smoke-0485c311e.2.azurestaticapps.net/feedback?code=${ secrets.BACKEND_API_KEY_DEFAULT }", {
-    method: "POST",
-    headers: { "Accept": "application/json" },
-    body: JSON.stringify(payload)
-  });
+    const name = formData.get("name");
+    const feedback = formData.get("feedback");
 
-  const result = await res.json();
-  console.log(result);
+    if (!name || !feedback) {
+      throw new Error("Both name and feedback fields are required.");
+    }
+
+    const payload = { name, feedback };
+
+    const res = await fetch(`https://calm-smoke-0485c311e.2.azurestaticapps.net/feedback?code=${secrets.BACKEND_API_KEY_DEFAULT}`, {
+      method: "POST",
+      headers: { "Accept": "application/json", "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    if (!res.ok) {
+      throw new Error(`Server responded with status ${res.status}`);
+    }
+
+    const result = await res.json();
+    console.log("Feedback submitted successfully:", result);
+
+  } catch (error) {
+    console.error("An error occurred:", error.message);
+    alert("Oops! Something went wrong. Please try again later.");
+  }
 });
