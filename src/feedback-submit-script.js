@@ -13,7 +13,7 @@ document.getElementById("feedbackForm").addEventListener("submit", async (e) => 
 
     const payload = { name, feedback };
 
-    const res = await fetch("https://calm-smoke-0485c311e.2.azurestaticapps.net?code=${secrets.BACKEND_API_KEY_DEFAULT}", {
+    const res = await fetch("https://calm-smoke-0485c311e.2.azurestaticapps.net", {
       method: "POST",
       headers: { "Accept": "application/json"},
       body: JSON.stringify(payload)
