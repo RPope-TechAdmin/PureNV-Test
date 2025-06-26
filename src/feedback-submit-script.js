@@ -16,6 +16,7 @@ document.getElementById("feedbackForm").addEventListener("submit", async (e) => 
     const res = await fetch("https:https://https://calm-smoke-0485c311e.2.azurestaticapps.net/api/feedback?code=${secrets.BACKEND_API_KEY_DEFAULT}", {
       method: "POST",
       headers: {
+              "Content-Type": "application/json",
               "Accept": "application/json",
             },
             credentials: "omit",
