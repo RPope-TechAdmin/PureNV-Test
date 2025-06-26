@@ -1,4 +1,4 @@
-document.getElementById("dataForm").addEventListener("submit", async (e) => {
+document.getElementById("feedbackForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   const formData = new FormData(e.target);
 
