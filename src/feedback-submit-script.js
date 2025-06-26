@@ -13,21 +13,25 @@ document.getElementById("feedbackForm").addEventListener("submit", async (e) => 
 
     const payload = { name, feedback };
 
-    const res = await fetch("https://calm-smoke-0485c311e.2.azurestaticapps.net", {
+    const res = await fetch("https://purenv-qld-api-backend-e3arg4gsc4g9fbd4.australiaeast-01.azurewebsites.net/feedback", {
       method: "POST",
-      headers: { "Accept": "application/json"},
-      body: JSON.stringify(payload)
-    });
+      headers: {
+              "Accept": "application/json",
+              "Content-Type": "application/json"
+            },
+            credentials: "omit",
+            body: JSON.stringify(payload)
+          });
 
-    if (!res.ok) {
-      throw new Error(`Server responded with status ${res.status}`);
-    }
+          if (!res.ok) {
+            throw new Error(`Server responded with status ${res.status}`);
+          }
 
-    const result = await res.json();
-    console.log("Feedback submitted successfully:", result);
+          const result = await res.json();
+          console.log("Feedback submitted successfully:", result);
 
-  } catch (error) {
-    console.error("An error occurred:", error.message);
-    alert("Oops! Something went wrong. Please try again later.");
-  }
+        } catch (error) {
+          console.error("An error occurred:", error.message);
+          alert("Oops! Something went wrong. Please try again later.");
+        }
 });
