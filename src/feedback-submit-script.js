@@ -17,7 +17,7 @@ document.getElementById("feedbackForm").addEventListener("submit", async (e) => 
       method: "POST",
       headers: {
               "Content-Type": "application/json",
-              "Accept": "application/json",
+              "Accept": "application/json"
             },
             credentials: "omit",
             body: JSON.stringify(payload)
