@@ -26,7 +26,7 @@
     },
     {
       "route": "/api/*",
-      "rewrite": "https://purenv-qld-api-backend-e3arg4gsc4g9fbd4.australiaeast-01.azurewebsites.net",
+      "rewrite": "https://purenv-qld-api-backend-e3arg4gsc4g9fbd4.australiaeast-01.azurewebsites.net?code=${secrets.BACKEND_API_KEY_DEFAULT}",
       "headers": {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
