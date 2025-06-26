@@ -28,7 +28,8 @@ document.getElementById("feedbackForm").addEventListener("submit", async (e) => 
           }
 
           const result = await res.json();
-          console.log("Feedback submitted successfully:", result);
+          console.log("Response status:", result.code);
+
 
         } catch (error) {
           console.error("An error occurred:", error.message);
