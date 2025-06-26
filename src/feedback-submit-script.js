@@ -13,7 +13,7 @@ document.getElementById("feedbackForm").addEventListener("submit", async (e) => 
 
     const payload = { name, feedback };
 
-    const res = await fetch("https://purenv-qld-api-backend-e3arg4gsc4g9fbd4.australiaeast-01.azurewebsites.net/feedback?code=${secrets.BACKEND_API_KEY_DEFAULT}", {
+    const res = await fetch("https:https://purenv-qld-api-backend-e3arg4gsc4g9fbd4.australiaeast-01.azurewebsites.net/api/feedback?code=${secrets.BACKEND_API_KEY_DEFAULT}", {
       method: "POST",
       headers: {
               "Accept": "application/json",
