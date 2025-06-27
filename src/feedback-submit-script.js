@@ -13,6 +13,12 @@ document.getElementById("feedbackForm").addEventListener("submit", async (e) => 
 
     const payload = { name, feedback };
 
+    console.log("Final payload:", JSON.stringify(payload));
+    console.log("Headers:", {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    });
+
     const res = await fetch("https://purenv-qld-api-backend-e3arg4gsc4g9fbd4.australiaeast-01.azurewebsites.net/api/feedback", {
       method: "POST",
       headers: {
