@@ -20,14 +20,14 @@ document.getElementById("feedbackForm").addEventListener("submit", async (e) => 
 
     const msalConfig = {
       auth: {
-        clientId: "786eb351-0a19-407d-84fc-3d29126960e8",
+        clientId: "bce610d8-2607-48f3-b6e2-fd9acef2732d",
         authority: "https://login.microsoftonline.com/655e497b-f0e8-44ed-98fb-77680dd02944",
         redirectUri: window.location.origin
       }
     };
 
     const tokenRequest = {
-      scopes: ["api://767020ce-1519-45e6-94c8-a3b8620230b3/user_impersonation"]
+      scopes: ["api://bce610d8-2607-48f3-b6e2-fd9acef2732d/user_impersonation"]
     };
 
     const msalInstance = new msal.PublicClientApplication(msalConfig);
@@ -38,13 +38,13 @@ document.getElementById("feedbackForm").addEventListener("submit", async (e) => 
       if (!account) {
         console.log("No account found, redirecting to login...");
         await msalInstance.loginRedirect({
-          scopes: ["api://767020ce-1519-45e6-94c8-a3b8620230b3/user_impersonation"]
+          scopes: ["api://bce610d8-2607-48f3-b6e2-fd9acef2732d/user_impersonation"]
         });
         return;
       }
 
       const tokenResponse = await msalInstance.acquireTokenSilent({
-        scopes: ["api://767020ce-1519-45e6-94c8-a3b8620230b3/user_impersonation"],
+        scopes: ["api://bce610d8-2607-48f3-b6e2-fd9acef2732d/user_impersonation"],
         account: account
       });
 
