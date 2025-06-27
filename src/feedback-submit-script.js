@@ -35,13 +35,19 @@ document.getElementById("feedbackForm").addEventListener("submit", async (e) => 
     async function sendFeedback() {
       const account = msalInstance.getAllAccounts()[0];
 
+      sessionStorage.setItem("postLoginAction", "submitFeedback");
+
+      const postLoginAction = sessionStorage.getItem("postLoginAction")
+
       if (!account) {
-        console.log("No account found, redirecting to login...");
-        await msalInstance.loginRedirect({
-          scopes: ["api://bce610d8-2607-48f3-b6e2-fd9acef2732d/user_impersonation"]
-        });
-        return;
-      }
+        if (postLoginAction==="submitFeedback") {
+          console.log("No account found, redirecting to login...");
+          await msalInstance.loginRedirect({
+            scopes: ["api://bce610d8-2607-48f3-b6e2-fd9acef2732d/user_impersonation"]
+          });
+          return;
+        }
+    }
 
       const tokenResponse = await msalInstance.acquireTokenSilent({
         scopes: ["api://bce610d8-2607-48f3-b6e2-fd9acef2732d/user_impersonation"],
@@ -82,6 +88,11 @@ document.getElementById("feedbackForm").addEventListener("submit", async (e) => 
 
   } catch (error) {
     console.error("[Feedback Submit] An error occurred:", error.message);
-    alert("Oops! Something went wrong. Please try again later.");
+    showError(`Error: ${error.message}`);
+    function showError(message) {
+      const errorDiv = document.getElementById("responseMessage");
+      errorDiv.style.display = "block";
+      errorDiv.textContent = message;
+    }
   }
 });
