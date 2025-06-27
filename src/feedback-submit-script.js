@@ -1,22 +1,22 @@
 document.getElementById("feedbackForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
-    try {
-      const formData = new FormData(e.target);
-      const name = formData.get("name");
-      const feedback = formData.get("feedback");
+  try {
+    const formData = new FormData(e.target);
+    const name = formData.get("name");
+    const feedback = formData.get("feedback");
 
-      if (!name || !feedback) {
-        throw new Error("Both name and feedback fields are required.")};
-      
+    if (!name || !feedback) {
+      throw new Error("Both name and feedback fields are required.");
+    }
 
-      const payload = { name, feedback };
+    const payload = { name, feedback };
 
-      console.log("Final payload:", JSON.stringify(payload));
-      console.log("Headers:", {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      });
+    console.log("Final payload:", JSON.stringify(payload));
+    console.log("Headers:", {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    });
 
     const msalConfig = {
       auth: {
@@ -32,7 +32,10 @@ document.getElementById("feedbackForm").addEventListener("submit", async (e) => 
       const account = msalInstance.getAllAccounts()[0];
 
       if (!account) {
-        await msalInstance.loginRedirect({ scopes: ["api://767020ce-1519-45e6-94c8-a3b8620230b3/user_impersonation"] });
+        console.log("No account found, redirecting to login...");
+        await msalInstance.loginRedirect({
+          scopes: ["api://767020ce-1519-45e6-94c8-a3b8620230b3/user_impersonation"]
+        });
         return;
       }
 
@@ -42,28 +45,36 @@ document.getElementById("feedbackForm").addEventListener("submit", async (e) => 
       });
 
       const token = tokenResponse.accessToken;
+
+      console.log("[Feedback Submit] Sending token:", token);
+
       const res = await fetch("https://purenv-qld-api-backend-e3arg4gsc4g9fbd4.australiaeast-01.azurewebsites.net/api/feedback", {
-      method: "POST",
-      headers: {
-              "Content-Type": "application/json",
-              "Accept": "application/json"
-            },
-            credentials: "omit",
-            body: JSON.stringify(payload)
-          })};
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`, // ✅ Auth header added
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        credentials: "omit",
+        body: JSON.stringify(payload)
+      });
 
-    console.log("[Feedback Submit] Response status:", res.status);
+      console.log("[Feedback Submit] Response status:", res.status);
 
-    if (!res.ok) {
-      const errorText = await res.text();
-      console.error("[Feedback Submit] Server error response:", errorText);
-      throw new Error(`Server responded with status ${res.status}`);
+      if (!res.ok) {
+        const errorText = await res.text();
+        console.error("[Feedback Submit] Server error response:", errorText);
+        throw new Error(`Server responded with status ${res.status}`);
+      }
+
+      const result = await res.json();
+      console.log("[Feedback Submit] Success:", result);
+
+      alert("Feedback submitted successfully!");
     }
 
-    const result = await res.json();
-    console.log("[Feedback Submit] Success:", result);
-
-    alert("Feedback submitted successfully!");
+    // ✅ Now call the function
+    await sendFeedback();
 
   } catch (error) {
     console.error("[Feedback Submit] An error occurred:", error.message);
