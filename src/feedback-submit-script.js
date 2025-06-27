@@ -20,10 +20,14 @@ document.getElementById("feedbackForm").addEventListener("submit", async (e) => 
 
     const msalConfig = {
       auth: {
-        clientId: "767020ce-1519-45e6-94c8-a3b8620230b3",
+        clientId: "786eb351-0a19-407d-84fc-3d29126960e8",
         authority: "https://login.microsoftonline.com/655e497b-f0e8-44ed-98fb-77680dd02944",
         redirectUri: window.location.origin
       }
+    };
+
+    const tokenRequest = {
+      scopes: ["api://767020ce-1519-45e6-94c8-a3b8620230b3/user_impersonation"]
     };
 
     const msalInstance = new msal.PublicClientApplication(msalConfig);
