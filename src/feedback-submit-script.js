@@ -8,7 +8,11 @@ const msalConfig = {
 };
 
 const loginRequest = {
-  scopes: ["api://{bce610d8-2607-48f3-b6e2-fd9acef2732d}/user_impersonation"]
+  scopes: [
+    "api://{bce610d8-2607-48f3-b6e2-fd9acef2732d}/user_impersonation",
+    "openid",
+    "profile",
+    "offline_access"]
 };
 
 const msalInstance = new msal.PublicClientApplication(msalConfig);
