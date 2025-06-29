@@ -68,8 +68,6 @@ async function getAccessToken() {
   }
 }
 
-console.log("Access Token:", token);
-
 // ----- Submit Feedback -----
 async function sendFeedback(name, feedback) {
   const token = await getAccessToken();
@@ -77,6 +75,8 @@ async function sendFeedback(name, feedback) {
     console.error("No Token Available")
     return;
   }
+
+  console.log("Access Token:", token);
 
   try {
     const res = await fetch("/api/feedback", {
