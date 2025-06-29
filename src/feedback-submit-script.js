@@ -76,7 +76,7 @@ async function sendFeedback(name, feedback) {
   if (!token) return;
 
   try {
-    const res = await fetch("https://purenv-qld-api-backend-e3arg4gsc4g9fbd4.australiaeast-01.azurewebsites.net/api/feedback", {
+    const res = await fetch("/api/feedback", {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${token}`,
