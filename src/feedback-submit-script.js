@@ -34,8 +34,12 @@ function showSuccess(message) {
 async function getAccessToken() {
   const accounts = msalInstance.getAllAccounts();
   if (accounts.length === 0) {
-    await msalInstance.loginRedirect(loginRequest); // redirects, returns later
-    return null;
+    try {
+      await msalInstance.loginPopup(loginRequest);
+    } catch (error) {
+      console.error("Login failed:", error);
+      return null;
+    }
   }
 
   try {
@@ -45,16 +49,19 @@ async function getAccessToken() {
     });
     return result.accessToken;
   } catch (e) {
-    console.warn("Silent token failed, redirecting...");
-    await msalInstance.loginRedirect(loginRequest); // will return here
+    console.warn("Silent token failed, Attempting popup");
+    await msalInstance.loginPopup(loginRequest); // will return here
+    try{
+      const result = await msalInstance.acquireTokenPopup(loginRequest);
+      return result.accessToken;
+    } catch (error) {
+      console.error("Token popup failed:", error);
     return null;
+    }
   }
 }
 
 // ----- Submit Feedback -----
-const name = document.getElementById("name").value;
-const feedback = document.getElementById("feedback").value;
-
 async function sendFeedback(name, feedback) {
   const token = await getAccessToken();
   if (!token) return;
@@ -94,6 +101,9 @@ document.getElementById("feedbackForm").addEventListener("submit", async (e) => 
   const formData = new FormData(e.target);
   const name = formData.get("name");
   const feedback = formData.get("feedback");
+
+  console.log("[Submit] Name:", name);
+  console.log("[Submit] Feedback:", feedback);
 
   if (!name || !feedback) {
     showError("Name and feedback are required.");
