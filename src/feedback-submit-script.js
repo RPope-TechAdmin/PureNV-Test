@@ -79,7 +79,7 @@ async function sendFeedback(name, feedback) {
   console.log("Access Token:", token);
 
   try {
-    const res = await fetch("purenv-qld-api-backend-e3arg4gsc4g9fbd4.australiaeast-01.azurewebsites.net/api/feedback", {
+    const res = await fetch("https://purenv-qld-api-backend-e3arg4gsc4g9fbd4.australiaeast-01.azurewebsites.net/api/feedback", {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${token}`,
