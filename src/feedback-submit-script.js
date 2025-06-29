@@ -52,6 +52,9 @@ async function getAccessToken() {
 }
 
 // ----- Submit Feedback -----
+const name = document.getElementById("name").value;
+const feedback = document.getElementById("feedback").value;
+
 async function sendFeedback(name, feedback) {
   const token = await getAccessToken();
   if (!token) return;
