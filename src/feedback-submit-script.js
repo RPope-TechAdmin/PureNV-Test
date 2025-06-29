@@ -95,9 +95,15 @@ async function sendFeedback(name, feedback) {
       return;
     }
 
-    const result = await res.json();
-    console.log("Feedback result:", result);
-    showSuccess("Feedback submitted successfully!");
+      try {
+      const result = JSON.parse(text); // Explicit parsing
+      console.log("Feedback result:", result);
+      showSuccess("Feedback submitted successfully!");
+    } catch (err) {
+      console.error("❌ Failed to parse JSON:", err, "Raw text:", text);
+      showError("Server error: Invalid JSON in response.");
+    }
+    
   } catch (err) {
     console.error("Submission error:", err);
     showError("Submission failed. Check console for details.");
