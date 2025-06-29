@@ -73,7 +73,10 @@ console.log("Access Token:", token);
 // ----- Submit Feedback -----
 async function sendFeedback(name, feedback) {
   const token = await getAccessToken();
-  if (!token) return;
+  if (!token) {
+    console.error("No Token Available")
+    return;
+  }
 
   try {
     const res = await fetch("/api/feedback", {
