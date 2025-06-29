@@ -34,12 +34,20 @@ function showSuccess(message) {
 async function getAccessToken() {
   const accounts = msalInstance.getAllAccounts();
   if (accounts.length === 0) {
-    try {
-      await msalInstance.loginPopup(loginRequest);
-    } catch (error) {
-      console.error("Login failed:", error);
-      return null;
-    }
+    // 👇 popup must be inside the user-initiated flow
+    return await msalInstance.loginPopup(loginRequest)
+      .then(async () => {
+        const account = msalInstance.getAllAccounts()[0];
+        const result = await msalInstance.acquireTokenSilent({
+          ...loginRequest,
+          account
+        });
+        return result.accessToken;
+      })
+      .catch((err) => {
+        console.error("Popup login failed:", err);
+        return null;
+      });
   }
 
   try {
@@ -49,14 +57,13 @@ async function getAccessToken() {
     });
     return result.accessToken;
   } catch (e) {
-    console.warn("Silent token failed, Attempting popup");
-    await msalInstance.loginPopup(loginRequest); // will return here
-    try{
+    console.warn("Silent failed, trying popup...");
+    try {
       const result = await msalInstance.acquireTokenPopup(loginRequest);
       return result.accessToken;
-    } catch (error) {
-      console.error("Token popup failed:", error);
-    return null;
+    } catch (err) {
+      console.error("Popup token fetch failed:", err);
+      return null;
     }
   }
 }
