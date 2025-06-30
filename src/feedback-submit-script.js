@@ -103,9 +103,9 @@ async function sendFeedback(name, feedback) {
       console.error("❌ Failed to parse JSON:", err, "Raw text:", text);
       showError("Server error: Invalid JSON in response.");
     }
-    
+
   } catch (err) {
-    console.error("Submission error:", err);
+    console.error("Submission error:", err.message);
     showError("Submission failed. Check console for details.");
   }
 }
