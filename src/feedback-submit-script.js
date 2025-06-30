@@ -55,7 +55,8 @@ async function getAccessToken() {
       ...loginRequest,
       account: accounts[0]
     });
-    return result.accessToken;
+    return result.accessToken,
+    console.log(accessToken);
   } catch (e) {
     console.warn("Silent failed, trying popup...");
     try {
@@ -68,7 +69,7 @@ async function getAccessToken() {
   }
 }
 
-console.log(accessToken);
+
 
 // ----- Submit Feedback -----
 async function sendFeedback(name, feedback) {
