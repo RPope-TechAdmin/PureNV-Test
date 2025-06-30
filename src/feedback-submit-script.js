@@ -69,67 +69,66 @@ async function getAccessToken() {
 }
 
 // ----- Submit Feedback -----
-async function sendFeedback(name, feedback) {
-  const token = await getAccessToken();
-  if (!token) {
-    console.error("No Token Available")
-    return;
-  }
-
-  console.log("Access Token:", token);
-
-  try {
-    const res = await fetch("https://purenv-qld-api-backend-e3arg4gsc4g9fbd4.australiaeast-01.azurewebsites.net/api/feedback", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      body: JSON.stringify({ name, feedback })
-    });
-
-    if (!res.ok) {
-      const errorText = await res.text();
-      showError(`Error: ${res.status} - ${errorText}`);
-      return;
-    }
+try {
+    async function sendFeedback(name, feedback) {
+      const token = await getAccessToken();
+      if (!token) {
+        console.error("No Token Available")
+        return;
+      }
 
       try {
-      const result = JSON.parse(text); // Explicit parsing
-      console.log("Feedback result:", result);
-      showSuccess("Feedback submitted successfully!");
-    } catch (err) {
-      console.error("❌ Failed to parse JSON:", err, "Raw text:", text);
-      showError("Server error: Invalid JSON in response.");
+        const res = await fetch("https://purenv-qld-api-backend-e3arg4gsc4g9fbd4.australiaeast-01.azurewebsites.net/api/feedback", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          body: JSON.stringify({ name, feedback })
+        });
+
+        if (!res.ok) {
+          const errorText = await res.text();
+          showError(`Error: ${res.status} - ${errorText}`);
+          return;
+        }
+
+      } catch (err) {
+        console.error("Submission error:", err.message);
+        showError("Submission failed. Check console for details.");
+      }
     }
 
-  } catch (err) {
-    console.error("Submission error:", err.message);
-    showError("Submission failed. Check console for details.");
-  }
-}
+    // ----- Form handler -----
+    document.getElementById("feedbackForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      document.getElementById("feedbackError").style.display = "none";
+      document.getElementById("feedbackSuccess").style.display = "none";
 
-// ----- Form handler -----
-document.getElementById("feedbackForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  document.getElementById("feedbackError").style.display = "none";
-  document.getElementById("feedbackSuccess").style.display = "none";
+      const formData = new FormData(e.target);
+      const name = formData.get("name");
+      const feedback = formData.get("feedback");
 
-  const formData = new FormData(e.target);
-  const name = formData.get("name");
-  const feedback = formData.get("feedback");
+      if (!response.ok) {
+          const errorText = await response.text();
+          console.error("Submission error:", errorText);
+          showMessage("❌ Submission failed: " + errorText, "error");
+          return;
+        }
 
-  console.log("[Submit] Name:", name);
-  console.log("[Submit] Feedback:", feedback);
+        const result = await response.json();
+        console.log("✅ Feedback submitted:", result);
 
-  if (!name || !feedback) {
-    showError("Name and feedback are required.");
-    return;
-  }
+        // Show success message
+        showMessage("✅ Feedback submitted successfully!", "success");
 
-  await sendFeedback(name, feedback);
-});
+        // Optionally reset the form
+        document.getElementById("feedback-form").reset()});
+    } catch (err) {
+    console.error("Submission error:", err.message || err);
+    showMessage("❌ Something went wrong while submitting.", "error");
+};
 
 // ----- Resume flow after login redirect -----
 window.addEventListener("DOMContentLoaded", async () => {
