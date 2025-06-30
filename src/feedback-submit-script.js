@@ -68,6 +68,8 @@ async function getAccessToken() {
   }
 }
 
+console.log(accessToken);
+
 // ----- Submit Feedback -----
 async function sendFeedback(name, feedback) {
   const token = await getAccessToken();
