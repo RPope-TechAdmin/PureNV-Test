@@ -69,66 +69,54 @@ async function getAccessToken() {
 }
 
 // ----- Submit Feedback -----
-try {
-    async function sendFeedback(name, feedback) {
-      const token = await getAccessToken();
-      if (!token) {
-        console.error("No Token Available")
-        return;
-      }
+async function sendFeedback(name, feedback) {
+  const token = await getAccessToken();
+  if (!token) {
+    console.error("No Token Available")
+    return;
+  }
 
-      try {
-        const res = await fetch("https://purenv-qld-api-backend-e3arg4gsc4g9fbd4.australiaeast-01.azurewebsites.net/api/feedback", {
-          method: "POST",
-          headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-          },
-          body: JSON.stringify({ name, feedback })
-        });
+    const res = await fetch("https://purenv-qld-api-backend-e3arg4gsc4g9fbd4.australiaeast-01.azurewebsites.net/api/feedback", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({ name, feedback })
+    });
 
-        if (!res.ok) {
-          const errorText = await res.text();
-          showError(`Error: ${res.status} - ${errorText}`);
-          return;
-        }
-
-      } catch (err) {
-        console.error("Submission error:", err.message);
-        showError("Submission failed. Check console for details.");
-      }
+    if (!res.ok) {
+      const errorText = await res.text();
+      showError(`Error: ${res.status} - ${errorText}`);
+      return;
     }
 
-    // ----- Form handler -----
-    document.getElementById("feedbackForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      document.getElementById("feedbackError").style.display = "none";
-      document.getElementById("feedbackSuccess").style.display = "none";
+    showSuccess("Your feedback has been successfully submitted, Thank you!");
 
-      const formData = new FormData(e.target);
-      const name = formData.get("name");
-      const feedback = formData.get("feedback");
+    document.getElementById("feedbackForm").reset();
+}
 
-      if (!response.ok) {
-          const errorText = await response.text();
-          console.error("Submission error:", errorText);
-          showMessage("❌ Submission failed: " + errorText, "error");
-          return;
-        }
+// ----- Form handler -----
+document.getElementById("feedbackForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  document.getElementById("feedbackError").style.display = "none";
+  document.getElementById("feedbackSuccess").style.display = "none";
 
-        const result = await response.json();
-        console.log("✅ Feedback submitted:", result);
+  const formData = new FormData(e.target);
+  const name = formData.get("name");
+  const feedback = formData.get("feedback");
 
-        // Show success message
-        showMessage("✅ Feedback submitted successfully!", "success");
+  console.log("[Submit] Name:", name);
+  console.log("[Submit] Feedback:", feedback);
 
-        // Optionally reset the form
-        document.getElementById("feedback-form").reset()});
-    } catch (err) {
-    console.error("Submission error:", err.message || err);
-    showMessage("❌ Something went wrong while submitting.", "error");
-};
+  if (!name || !feedback) {
+    showError("Name and feedback are required.");
+    return;
+  }
+
+  await sendFeedback(name, feedback);
+});
 
 // ----- Resume flow after login redirect -----
 window.addEventListener("DOMContentLoaded", async () => {
